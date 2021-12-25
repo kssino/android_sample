@@ -112,8 +112,6 @@ class MainActivity : AppCompatActivity(), neuroNicleService.Companion.NNListener
         super.onDestroy()
     }
 
-
-
     private var dataCount = 1;
     override fun onDataReceived(ch1: Int, ch2: Int) {
         ch1RawArray.add(ch1)
