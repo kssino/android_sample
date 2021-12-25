@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,9 @@ import kotlin.concurrent.schedule
 
 
 class MainActivity : AppCompatActivity(), neuroNicleService.Companion.NNListener {
+
+    lateinit var mp0: MediaPlayer
+
     private var ch1RawArray: MutableList<Int> = IntArray(250){0}.toMutableList()
     private var ch2RawArray: MutableList<Int> = IntArray(250){0}.toMutableList()
 
@@ -61,6 +65,7 @@ class MainActivity : AppCompatActivity(), neuroNicleService.Companion.NNListener
         button.setOnClickListener{
             val intent = Intent(this, SubActivity::class.java)
             startActivity(intent)
+            mp0.release()
         }
 
         val message = NeuroNicleProto.ConnectionRequest.newBuilder().setClientCode(clientId).build()
@@ -93,6 +98,11 @@ class MainActivity : AppCompatActivity(), neuroNicleService.Companion.NNListener
             neuroNicleService.instance.isConnected = true
             neuroNicleService.instance.isFitting = true
         }
+
+        mp0= MediaPlayer.create(this,R.raw.illumination)
+        mp0.isLooping=true
+
+        mp0.start()
     }
 
 
@@ -109,6 +119,7 @@ class MainActivity : AppCompatActivity(), neuroNicleService.Companion.NNListener
                 println("complete")
             }
         })
+        //mp0.release()
         super.onDestroy()
     }
 

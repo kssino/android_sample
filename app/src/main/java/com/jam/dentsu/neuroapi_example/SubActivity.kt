@@ -2,6 +2,7 @@ package com.jam.dentsu.neuroapi_example
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -21,6 +22,8 @@ import java.util.*
 import kotlin.concurrent.schedule
 
 class SubActivity : AppCompatActivity() {
+
+    lateinit var mp1: MediaPlayer
 
     companion object {
         private const val TERM_MILLISECOND: Long = 1000
@@ -107,6 +110,19 @@ class SubActivity : AppCompatActivity() {
             runOnUiThread {
                 GetSimData()
             }
+        }
+        //3,2,1タイマー
+        mp1 = MediaPlayer.create(this,R.raw.zihou)
+        mp1.isLooping=false
+        var countBgm = 0
+        Timer().schedule(7000,20000){
+            countBgm ++
+            if (countBgm <= 4){
+                mp1.start()
+            }else{
+                mp1.release()
+            }
+
         }
     }
 
